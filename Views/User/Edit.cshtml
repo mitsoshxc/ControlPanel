@@ -1,0 +1,24 @@
+@model VPCustInfo.Models.Users
+
+@{
+    ViewData["Title"] = "Edit User" +  Model.Name;
+}
+
+
+<form asp-action="Edit" method="POST" role="form">
+    <legend>Edit User  @Model.Name</legend>
+
+    <div class="form-group">
+        <label>New Password</label>
+        <input type="password" class="form-control" name="_pass">
+        <input type="hidden" name="_id" value="@Model.id">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+    <a asp-action="Index" asp-controller="Home">
+        <button type="button" class="btn btn-primary">
+            To Home
+        </button>
+    </a>
+</form>

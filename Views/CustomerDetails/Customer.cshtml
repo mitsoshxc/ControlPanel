@@ -1,0 +1,76 @@
+@model IEnumerable<VPCustInfo.Models.CustomersDetails>
+
+@if ((bool)TempData.ContainsKey("ActionError"))
+{
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>@TempData["ActionError"]</strong>
+    </div>
+}
+else if ((bool)TempData.ContainsKey("ActionSuccess"))
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>@TempData["ActionSuccess"]</strong>
+    </div>
+}
+
+<h3>Customer's @ViewData["Name"] Details</h3>
+
+@if (Model.Any())
+{
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Website</th>
+                    <th>SQL User Name</th>
+                    <th>SQL Password </th>
+                    <th>Wordpress User Name</th>
+                    <th>Wordpress Password</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var _custDetails in Model)
+                {
+                    <tr>
+                        <td>
+                            <a href="http://@ViewData["Website"]" target="_blank">
+                                @ViewData["Website"]
+                            </a>
+                        </td>
+                        <td>@_custDetails.SqlUser.Decrypt()</td>
+                        <td>@_custDetails.SqlPass.Decrypt()</td>
+                        <td>@_custDetails.WpUser.Decrypt()</td>
+                        <td>@_custDetails.WpPass.Decrypt()</td>
+                        <td>
+                            <a class="btn btn-primary" role="button" title="Edit Customer's Details"
+                                    asp-action="Edit" asp-controller="CustomerDetails"
+                                    asp-route-id="@_custDetails.CustomerId"
+                                    asp-route-LineNo="@_custDetails.id">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true" />
+                            </a>
+
+                            <a class="btn btn-danger" role="button" title="Remove Customer's Details"
+                                    asp-action="Delete" asp-controller="CustomerDetails"
+                                    asp-route-id="@_custDetails.CustomerId"
+                                    asp-route-LineNo="@_custDetails.id">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true" />
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+<a class="btn btn-primary" role="button" title="Add Customer's Details"
+        asp-action="Add" asp-controller="CustomerDetails" asp-route-id="@ViewData["CustId"]">
+    Add Details
+</a>
+
+<a class="btn btn-primary" role="button" asp-action="Customers" asp-controller="Home"
+        title="Add Customer's Details">
+    All Customers
+</a>

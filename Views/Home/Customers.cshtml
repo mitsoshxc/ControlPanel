@@ -1,0 +1,73 @@
+@model IEnumerable<VPCustInfo.Models.Customers>
+
+@{
+    ViewData["Title"] = "All Customers";
+}
+
+<!-- Alert Messages -->
+
+@if ((bool)TempData.ContainsKey("ActionError"))
+{
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>@TempData["ActionError"]</strong>
+    </div>
+}
+else if ((bool)TempData.ContainsKey("ActionSuccess"))
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>@TempData["ActionSuccess"]</strong>
+    </div>
+}
+
+<!-- Customers Table -->
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Customer Name</th>
+                <th>Website</th>
+                <th>Phone 1</th>
+                <th>Phone 2</th>
+                <th>Address</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var _cust in Model)
+        {
+            <tr>
+                <td>@_cust.Name</td>
+                <td>
+                    <a href="http://@_cust.Website" target="_blank">@_cust.Website</a>
+                </td>
+                <td>@_cust.Phone1</td>
+                <td>@_cust.Phone2</td>
+                <td>@_cust.Address</td>
+                <td>@_cust.Email</td>
+                <td>
+                    <a class="btn btn-primary" role="button" title="Customer's Details"
+                        asp-action="Customer" asp-controller="CustomerDetails" asp-route-id="@_cust.id">
+                        <span class="glyphicon glyphicon-align-justify" aria-hidden="true" />
+                    </a>
+
+                    <a class="btn btn-primary" role="button" title="Edit Customer"
+                        asp-action="Edit" asp-controller="Customer" asp-route-id="@_cust.id">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true" />
+                    </a>
+
+                    <a class="btn btn-danger" role="button" title="Remove Customer"
+                        asp-action="Delete" asp-controller="Customer" asp-route-id="@_cust.id">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true" />
+                    </a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+<a class="btn btn-primary" role="button" asp-action="Add" asp-controller="Customer" title="Add Customer">
+    Add Customer
+</a>

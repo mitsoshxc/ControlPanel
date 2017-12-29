@@ -1,0 +1,37 @@
+@{
+    ViewData["Title"] = "Add Customer's Details";
+}
+
+
+<form asp-action="Add" method="POST" role="form">
+    <legend>Add Customer's Details</legend>
+
+    <div class="form-group">
+        <label>SQL User Name</label>
+        <input type="text" class="form-control" name="_sqlUser">
+    </div>
+
+    <div class="form-group">
+        <label>SQL Password</label>
+        <input type="password" class="form-control" name="_sqlPass">
+    </div>
+
+    <div class="form-group">
+        <label>Wordpress User Name</label>
+        <input type="text" class="form-control" name="_wpUser">
+    </div>
+
+    <div class="form-group">
+        <label>Wordpress Password</label>
+        <input type="password" class="form-control" name="_wpPass">
+    </div>
+
+    <input type="hidden" name="_custId" value="@Model">
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+    <a class="btn btn-primary" role="button" asp-action="Customer"
+            asp-controller="CustomerDetails" asp-route-id="@Model">
+        To Details
+    </a>
+</form>

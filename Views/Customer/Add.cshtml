@@ -1,0 +1,44 @@
+@{
+    ViewData["Title"] = "Add Customer";
+}
+
+
+<form asp-action="Add" method="POST" role="form">
+    <legend>Add New Customer</legend>
+
+    <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-control" name="_name">
+    </div>
+    
+    <div class="form-group">
+        <label>Website</label>
+        <input type="text" class="form-control" name="_website">
+    </div>
+
+    <div class="form-group">
+        <label>Phone 1</label>
+        <input type="text" class="form-control" name="_phone1">
+    </div>
+
+    <div class="form-group">
+        <label>Phone 2</label>
+        <input type="text" class="form-control" name="_phone2">
+    </div>
+
+    <div class="form-group">
+        <label>Address</label>
+        <input type="text" class="form-control" name="_address">
+    </div>
+
+    <div class="form-group">
+        <label>Email</label>
+        <input type="text" class="form-control" name="_email">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+    <a class="btn btn-primary" role="button" asp-action="Index" asp-controller="Home">
+        To Home
+    </a>
+</form>
