@@ -15,7 +15,7 @@ namespace VPCustInfo.Controllers
             CustomersContext = _context;
         }
 
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
             if (HttpContext.Session.GetSession<string>("User") != null)
             {
@@ -73,7 +73,7 @@ namespace VPCustInfo.Controllers
 
         }
 
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (HttpContext.Session.GetSession<string>("User") != null)
             {

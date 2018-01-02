@@ -15,7 +15,7 @@ namespace VPCustInfo.Controllers
             CustomersContext = _context;
         }
 
-        public async Task<IActionResult> Customer(int? id)
+        public async Task<IActionResult> Customer(int id)
         {
             if (HttpContext.Session.GetSession<string>("User") != null)
             {
@@ -49,11 +49,24 @@ namespace VPCustInfo.Controllers
             }
         }
 
-        public IActionResult Add(int id)
+        public async Task<IActionResult> Add(int id)
         {
             if (HttpContext.Session.GetSession<string>("User") != null)
             {
-                return View(id);
+                try
+                {
+                    await (from t0 in CustomersContext.Customer
+                           where t0.id == id
+                           select t0).FirstAsync();
+
+                    return View(id);
+                }
+                catch (Exception ex)
+                {
+                    TempData["ActionError"] = ex.Message;
+
+                    return RedirectToAction("Customer", new { id = id });
+                }
             }
             else
             {
@@ -94,13 +107,22 @@ namespace VPCustInfo.Controllers
         {
             if (HttpContext.Session.GetSession<string>("User") != null)
             {
-                ViewData["Name"] = await (from t0 in CustomersContext.Customer
-                                          where t0.id == id
-                                          select t0.Name).FirstAsync();
+                try
+                {
+                    ViewData["Name"] = await (from t0 in CustomersContext.Customer
+                                              where t0.id == id
+                                              select t0.Name).FirstAsync();
 
-                return View(await (from t0 in CustomersContext.CustomerDetails
-                                   where t0.id == LineNo
-                                   select t0).FirstAsync());
+                    return View(await (from t0 in CustomersContext.CustomerDetails
+                                       where t0.id == LineNo
+                                       select t0).FirstAsync());
+                }
+                catch (Exception ex)
+                {
+                    TempData["ActionError"] = ex.Message;
+
+                    return RedirectToAction("Customer", new { id = id });
+                }
             }
             else
             {
@@ -137,13 +159,26 @@ namespace VPCustInfo.Controllers
             }
         }
 
-        public IActionResult Delete(int? id, int LineNo)
+        public async Task<IActionResult> Delete(int id, int LineNo)
         {
             if (HttpContext.Session.GetSession<string>("User") != null)
             {
-                ViewData["id"] = id;
+                try
+                {
+                    await (from t0 in CustomersContext.CustomerDetails
+                           where t0.id == LineNo
+                           select t0).FirstAsync();
 
-                return View(LineNo);
+                    ViewData["id"] = id;
+
+                    return View(LineNo);
+                }
+                catch (Exception ex)
+                {
+                    TempData["ActionError"] = ex.Message;
+
+                    return RedirectToAction("Customer", new { id = id });
+                }
             }
             else
             {
@@ -152,7 +187,7 @@ namespace VPCustInfo.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(int _id, int _custId)
+        public async Task<IActionResult> Delete(int? _id, int _custId)
         {
             try
             {
