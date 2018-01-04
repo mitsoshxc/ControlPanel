@@ -39,7 +39,7 @@ namespace VPCustInfo
             // Add Database Model
             //
             services.AddDbContext<Models.VPCustomersContext>(options =>
-                options.UseSqlite("Data Source=DataBase/VPCustomers"));
+                options.UseSqlite("Data Source=/ControlPanel/bin/Release/netcoreapp2.0/publish/DataBase/VPCustomers"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
