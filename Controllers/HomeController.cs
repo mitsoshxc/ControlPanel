@@ -28,7 +28,7 @@ namespace VPCustInfo.Controllers
             {
                 ViewData["LogFail"] = _failAction;
             }
-            
+
             if (HttpContext.Session.GetSession<string>("UserId") != null)
             {
                 return RedirectToAction("Customers");
@@ -42,19 +42,27 @@ namespace VPCustInfo.Controllers
         [HttpPost]
         public async Task<IActionResult> Validate(string _name, string _pass)
         {
-            var _uId = await (from n in CustomersContext.User
-                              where n.Name == _name && n.Pass == _pass.Encrypt()
-                              select n.id).FirstOrDefaultAsync();
-            if (_uId > 0)
+            try
             {
-                HttpContext.Session.SetSession<string>("User", _name);
-                HttpContext.Session.SetSession<int>("UserId", _uId);
+                var _uId = await (from n in CustomersContext.User
+                                  where n.Name == _name && n.Pass == _pass.Encrypt()
+                                  select n.id).FirstOrDefaultAsync();
+                if (_uId > 0)
+                {
+                    HttpContext.Session.SetSession<string>("User", _name);
+                    HttpContext.Session.SetSession<int>("UserId", _uId);
 
-                return RedirectToAction("Customers");
+                    return RedirectToAction("Customers");
+                }
+                else
+                {
+                    return RedirectToAction("Index", new { _failAction = _name });
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return RedirectToAction("Index", new { _failAction = _name });
+                TempData["ValidateException"] = ex.Message;
+                return RedirectToAction("Index");
             }
         }
 
