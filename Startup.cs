@@ -23,7 +23,7 @@ namespace VPCustInfo
             //
             // Cookies and Session
             //
-            services.AddSession(options => 
+            services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
 
@@ -45,6 +45,15 @@ namespace VPCustInfo
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            //
+            // Nginx reverse proxy redirections
+            //
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor |
+                                   Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
