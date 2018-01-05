@@ -9,23 +9,18 @@
     <legend>Edit Customer's  @ViewData["Name"]  Details</legend>
 
     <div class="form-group">
-        <label>SQL User Name</label>
-        <input type="text" class="form-control" name="_sqlUser" value="@Model.SqlUser.Decrypt()">
+        <label>Entry Type</label>
+        <input type="text" class="form-control" name="_type" value="@Model.Type.Decrypt()">
     </div>
 
     <div class="form-group">
-        <label>SQL Password</label>
-        <input type="text" class="form-control" name="_sqlPass" value="@Model.SqlPass.Decrypt()">
+        <label>User Name</label>
+        <input type="text" class="form-control" name="_username" value="@Model.UserName.Decrypt()">
     </div>
 
     <div class="form-group">
-        <label>Wordpress User Name</label>
-        <input type="text" class="form-control" name="_wpUser" value="@Model.WpUser.Decrypt()">
-    </div>
-
-    <div class="form-group">
-        <label>Wordpress Password</label>
-        <input type="text" class="form-control" name="_wpPass" value="@Model.WpPass.Decrypt()">
+        <label>Password</label>
+        <input type="text" class="form-control" name="_password" value="@Model.Password.Decrypt()">
     </div>
 
     <input type="hidden" name="_id" value="@Model.id">

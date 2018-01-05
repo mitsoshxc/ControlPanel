@@ -16,6 +16,13 @@ else if ((bool)TempData.ContainsKey("ActionSuccess"))
 }
 
 <h3>Customer's @ViewData["Name"] Details</h3>
+@if ((bool)ViewData.ContainsKey("Website")) {
+    <h4>
+        You can also check  <a href="http://@ViewData["Website"]" target="_blank">
+                                @ViewData["Website"]
+                            </a>
+    </h4>
+}
 
 @if (Model.Any())
 {
@@ -23,26 +30,18 @@ else if ((bool)TempData.ContainsKey("ActionSuccess"))
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th>Website</th>
-                    <th>SQL User Name</th>
-                    <th>SQL Password </th>
-                    <th>Wordpress User Name</th>
-                    <th>Wordpress Password</th>
+                    <th>Entry Type</th>
+                    <th>User Name </th>
+                    <th>Password</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var _custDetails in Model)
                 {
                     <tr>
-                        <td>
-                            <a href="http://@ViewData["Website"]" target="_blank">
-                                @ViewData["Website"]
-                            </a>
-                        </td>
-                        <td>@_custDetails.SqlUser.Decrypt()</td>
-                        <td>@_custDetails.SqlPass.Decrypt()</td>
-                        <td>@_custDetails.WpUser.Decrypt()</td>
-                        <td>@_custDetails.WpPass.Decrypt()</td>
+                        <td>@_custDetails.Type.Decrypt()</td>
+                        <td>@_custDetails.UserName.Decrypt()</td>
+                        <td>@_custDetails.Password.Decrypt()</td>
                         <td>
                             <a class="btn btn-primary" role="button" title="Edit Customer's Details"
                                     asp-action="Edit" asp-controller="CustomerDetails"

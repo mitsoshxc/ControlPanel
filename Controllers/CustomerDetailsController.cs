@@ -75,18 +75,17 @@ namespace VPCustInfo.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(int _custId, string _sqlUser = "", string _sqlPass = "",
-            string _wpUser = "", string _wpPass = "")
+        public async Task<IActionResult> Add(int _custId, string _type = "", string _username = "",
+            string _password = "")
         {
             try
             {
                 await CustomersContext.CustomerDetails.AddAsync(new Models.CustomersDetails
                 {
                     CustomerId = _custId,
-                    SqlUser = _sqlUser.Encrypt(),
-                    SqlPass = _sqlPass.Encrypt(),
-                    WpUser = _wpUser.Encrypt(),
-                    WpPass = _wpPass.Encrypt()
+                    Type = _type.Encrypt(),
+                    UserName = _username.Encrypt(),
+                    Password = _password.Encrypt()
                 });
 
                 await CustomersContext.SaveChangesAsync();
@@ -131,8 +130,8 @@ namespace VPCustInfo.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int _id, int _custId, string _sqlUser, string _sqlPass,
-            string _wpUser, string _wpPass)
+        public async Task<IActionResult> Edit(int _id, int _custId, string _type = "", string _username = "",
+            string _password = "")
         {
             try
             {
@@ -140,10 +139,9 @@ namespace VPCustInfo.Controllers
                                              where t0.id == _id
                                              select t0).FirstAsync();
 
-                _custDetailLine.SqlUser = _sqlUser.Encrypt();
-                _custDetailLine.SqlPass = _sqlPass.Encrypt();
-                _custDetailLine.WpUser = _wpUser.Encrypt();
-                _custDetailLine.WpPass = _wpPass.Encrypt();
+                _custDetailLine.Type = _type.Encrypt();
+                _custDetailLine.UserName = _username.Encrypt();
+                _custDetailLine.Password = _password.Encrypt();
 
                 await CustomersContext.SaveChangesAsync();
 

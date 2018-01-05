@@ -7,23 +7,18 @@
     <legend>Add Customer's Details</legend>
 
     <div class="form-group">
-        <label>SQL User Name</label>
-        <input type="text" class="form-control" name="_sqlUser">
+        <label>Entry Type</label>
+        <input type="text" class="form-control" name="_type" placeholder="e.x. Wordpress">
     </div>
 
     <div class="form-group">
-        <label>SQL Password</label>
-        <input type="password" class="form-control" name="_sqlPass">
+        <label>User Name</label>
+        <input type="text" class="form-control" name="_username">
     </div>
 
     <div class="form-group">
-        <label>Wordpress User Name</label>
-        <input type="text" class="form-control" name="_wpUser">
-    </div>
-
-    <div class="form-group">
-        <label>Wordpress Password</label>
-        <input type="password" class="form-control" name="_wpPass">
+        <label>Password</label>
+        <input type="text" class="form-control" name="_password">
     </div>
 
     <input type="hidden" name="_custId" value="@Model">
