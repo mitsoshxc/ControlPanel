@@ -45,7 +45,8 @@ namespace VPCustInfo.Controllers
             }
             else
             {
-                return RedirectToAction("Customer", "Home", new { _failAction = "SessionExpired" });
+                TempData["SessionExpired"] = true;
+                return RedirectToAction("Index", "Home");
             }
         }
 
@@ -70,7 +71,8 @@ namespace VPCustInfo.Controllers
             }
             else
             {
-                return RedirectToAction("Customer", "Home", new { _failAction = "SessionExpired" });
+                TempData["SessionExpired"] = true;
+                return RedirectToAction("Index", "Home");
             }
         }
 
@@ -125,7 +127,8 @@ namespace VPCustInfo.Controllers
             }
             else
             {
-                return RedirectToAction("Customer", "Home", new { _failAction = "SessionExpired" });
+                TempData["SessionExpired"] = true;
+                return RedirectToAction("Index", "Home");
             }
         }
 
@@ -180,7 +183,8 @@ namespace VPCustInfo.Controllers
             }
             else
             {
-                return RedirectToAction("Customer", "Home", new { _failAction = "SessionExpired" });
+                TempData["SessionExpired"] = true;
+                return RedirectToAction("Index", "Home");
             }
         }
 

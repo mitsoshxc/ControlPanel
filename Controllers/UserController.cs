@@ -36,7 +36,8 @@ namespace VPCustInfo.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home", new { _failAction = "SessionExpired" });
+                TempData["SessionExpired"] = true;
+                return RedirectToAction("Index", "Home");
             }
         }
 
@@ -62,7 +63,8 @@ namespace VPCustInfo.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home", new { _failAction = "SessionExpired" });
+                TempData["SessionExpired"] = true;
+                return RedirectToAction("Index", "Home");
             }
         }
 

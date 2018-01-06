@@ -18,17 +18,8 @@ namespace VPCustInfo.Controllers
             CustomersContext = _context;
         }
 
-        public IActionResult Index(string _failAction = "", string _exception = "")
+        public IActionResult Index()
         {
-            if (_failAction == "SessionExpired")
-            {
-                ViewData["SessionExpired"] = "true";
-            }
-            else if (_failAction.Length > 0)
-            {
-                ViewData["LogFail"] = _failAction;
-            }
-
             if (HttpContext.Session.GetSession<string>("UserId") != null)
             {
                 return RedirectToAction("Customers");
@@ -44,6 +35,11 @@ namespace VPCustInfo.Controllers
         {
             try
             {
+                if (_name == null)
+                {
+                    TempData["NoUserName"] = "true";
+                    return RedirectToAction("Index");
+                }
                 var _uId = await (from n in CustomersContext.User
                                   where n.Name == _name && n.Pass == _pass.Encrypt()
                                   select n.id).FirstOrDefaultAsync();
@@ -56,7 +52,8 @@ namespace VPCustInfo.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Index", new { _failAction = _name });
+                    TempData["LogFail"] = _name;
+                    return RedirectToAction("Index");
                 }
             }
             catch (Exception ex)
@@ -78,7 +75,8 @@ namespace VPCustInfo.Controllers
             }
             else
             {
-                return RedirectToAction("Index", new { _failAction = "SessionExpired" });
+                TempData["SessionExpired"] = true;
+                return RedirectToAction("Index");
             }
         }
 

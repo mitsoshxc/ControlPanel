@@ -1,6 +1,4 @@
-﻿@model VPCustInfo.Models.Users
-
-@{
+﻿@{
     ViewData["Title"] = "Visual Pivot Control Panel";
 }
 
@@ -8,34 +6,41 @@
     <h1>Visual Pivot Control Panel</h1>
 
     @{
-        if ((bool)ViewData.ContainsKey("LogFail"))
+        if ((bool)TempData.ContainsKey("LogFail"))
         {
             <div class="alert alert-danger">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                <strong>Log In Failed for user @ViewData["LogFail"]</strong>
+                <strong>Log In Failed for user @TempData["LogFail"]</strong>
             </div>
-        }
-        else if ((bool)ViewData.ContainsKey("SessionExpired"))
-        {
-            <div class="alert alert-danger">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                <strong>Your Session is Invalid</strong> Please Log In...
-            </div>
-        }
-        else if ((bool)ViewData.ContainsKey("Exception"))
-        {
-            <div class="alert alert-danger">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                <strong>@ViewData["Exception"]</strong>
-            </div>
-        }
 
-        if ((bool)TempData.ContainsKey("ValidateException"))
+            TempData.Remove("LogFail");
+        }
+        else if ((bool)TempData.ContainsKey("ValidateException"))
         {
             <div class="alert alert-danger">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                 <strong>@TempData["ValidateException"]</strong>
             </div>
+
+            TempData.Remove("ValidateException");
+        }
+        else if ((bool)TempData.ContainsKey("SessionExpired"))
+        {
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <strong>Seems like you are not logged in or your Session has expired</strong> Please Log In...
+            </div>
+
+            TempData.Remove("SessionExpired");
+        }
+        else if ((bool)TempData.ContainsKey("NoUserName"))
+        {
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <strong>User Name is missing. Please state who are you</strong>
+            </div>
+
+            TempData.Remove("NoUserName");
         }
     }
 
