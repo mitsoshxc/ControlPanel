@@ -87,7 +87,7 @@ namespace VPCustInfo.Controllers
                 catch (Exception ex)
                 {
                     TempData["ActionError"] = ex.Message;
-                    
+
                     return RedirectToAction("Customers", "Home");
                 }
             }
@@ -103,11 +103,27 @@ namespace VPCustInfo.Controllers
         {
             try
             {
+                //
+                // Remove customer's details first
+                //
+                var _custDetails = from t0 in CustomersContext.CustomerDetails
+                                   where t0.CustomerId == _id
+                                   select t0;
+                
+                foreach (var _element in _custDetails)
+                {
+                    CustomersContext.CustomerDetails.Remove(_element);
+                }
+
+                await CustomersContext.SaveChangesAsync();
+                //
+                // Remove customer
+                //
                 CustomersContext.Customer.Remove(await (from cust in CustomersContext.Customer
                                                         where cust.id == _id
                                                         select cust).FirstAsync()
                                                 );
-
+                                                
                 await CustomersContext.SaveChangesAsync();
 
                 TempData["ActionSuccess"] = "Successfully removed customer " + _name;
