@@ -32,7 +32,10 @@ namespace VPCustInfo.Controllers
                     ViewData["Title"] = _customer.Name + "'s Details";
                     ViewData["Name"] = _customer.Name;
                     ViewData["CustId"] = _customer.id;
-                    ViewData["Website"] = _customer.Website;
+                    if (_customer.Website.Length > 0)
+                    {
+                        ViewData["Website"] = _customer.Website;
+                    }
 
                     return View(_customerDetails);
                 }
