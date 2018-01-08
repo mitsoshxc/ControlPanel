@@ -8,5 +8,6 @@ namespace VPCustInfo.Models
         public int id { get; set; }
         public string Name { get; set; }
         public string Pass { get; set; }
+        public int Rank { get; set; }
     }
 }

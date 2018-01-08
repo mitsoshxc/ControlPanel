@@ -9,16 +9,22 @@
     <legend>Edit User  @Model.Name</legend>
 
     <div class="form-group">
+        <label>User's Rank</label>
+        <input type="text" class="form-control" name="_rank" value="@Model.Rank">
+    </div>
+
+    <div class="form-group">
         <label>New Password</label>
         <input type="password" class="form-control" name="_pass">
         <input type="hidden" name="_id" value="@Model.id">
+        <input type="hidden" name="_name" value="@Model.Name">
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>
 
-    <a asp-action="Index" asp-controller="Home">
+    <a asp-action="Index">
         <button type="button" class="btn btn-primary">
-            To Home
+            All Users
         </button>
     </a>
 </form>

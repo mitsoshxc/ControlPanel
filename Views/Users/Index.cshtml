@@ -1,0 +1,66 @@
+@model IEnumerable<VPCustInfo.Models.Users>
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "All Users";
+}
+
+<!-- Alert Messages -->
+
+@if ((bool)TempData.ContainsKey("ActionError"))
+{
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>@TempData["ActionError"]</strong>
+    </div>
+}
+else if ((bool)TempData.ContainsKey("ActionSuccess"))
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>@TempData["ActionSuccess"]</strong>
+    </div>
+}
+
+<!-- Customers Table -->
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>User Name</th>
+                <th>Rank</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var _user in Model)
+        {
+            <tr>
+                <td>@_user.Name</td>
+                <td>@_user.Rank</td>
+                <td>
+                    <a class="btn btn-primary" role="button" title="Edit User"
+                        asp-action="Edit" asp-route-id="@_user.id">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true" />
+                    </a>
+                    @if (!_user.Name.Equals(HttpContextAccessor.HttpContext.Session.GetSession<string>("User")))
+                    {
+                        <a class="btn btn-danger" role="button" title="Remove User"
+                        asp-action="Delete" asp-route-id="@_user.id">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true" />
+                    </a>
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+<a class="btn btn-primary" role="button" asp-action="Add" title="Add User">
+    Add User
+</a>
+
+<a class="btn btn-primary" role="button" asp-action="Customers" asp-controller="Home" title="Add User">
+    All Customers
+</a>
