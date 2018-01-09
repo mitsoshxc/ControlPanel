@@ -31,6 +31,7 @@ namespace VPCustInfo.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Validate(string _name, string _pass)
         {
             try

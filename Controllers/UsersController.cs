@@ -54,6 +54,7 @@ namespace VPCustInfo.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int _id, string _name, string _pass, int _rank)
         {
             try
@@ -98,6 +99,7 @@ namespace VPCustInfo.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(string _name, string _pass, int _rank)
         {
             try
@@ -139,6 +141,7 @@ namespace VPCustInfo.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int _id, string _name)
         {
             try
