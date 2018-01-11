@@ -5,19 +5,24 @@
 }
 
 
-<form asp-action="Edit" method="POST" role="form">
+<form asp-action="Edit" method="POST" role="form" name="user"
+        onsubmit="return UserValidation()">
     <legend>Edit User  @Model.Name</legend>
+
+    <input type="hidden" name="_name" value="@Model.Name">
+    <div class="alert alert-danger" id="user_name" style="display: none;"></div>
 
     <div class="form-group">
         <label>User's Rank</label>
         <input type="text" class="form-control" name="_rank" value="@Model.Rank">
+        <div class="alert alert-danger" id="user_rank" style="display: none;"></div>
     </div>
 
     <div class="form-group">
         <label>New Password</label>
         <input type="password" class="form-control" name="_pass">
+        <div class="alert alert-danger" id="user_pass" style="display: none;"></div>
         <input type="hidden" name="_id" value="@Model.id">
-        <input type="hidden" name="_name" value="@Model.Name">
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>

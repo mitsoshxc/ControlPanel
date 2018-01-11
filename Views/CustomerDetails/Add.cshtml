@@ -3,22 +3,26 @@
 }
 
 
-<form asp-action="Add" method="POST" role="form">
+<form asp-action="Add" method="POST" role="form" name="customerdetails"
+        onsubmit="return CustDetailsValidate()">
     <legend>Add Customer's Details</legend>
 
     <div class="form-group">
         <label>Entry Type</label>
         <input type="text" class="form-control" name="_type" placeholder="e.x. Wordpress">
+        <div class="alert alert-danger" id="customerdetails_type" style="display: none;"></div>
     </div>
 
     <div class="form-group">
         <label>User Name</label>
         <input type="text" class="form-control" name="_username">
+        <div class="alert alert-danger" id="customerdetails_username" style="display: none;"></div>
     </div>
 
     <div class="form-group">
         <label>Password</label>
         <input type="text" class="form-control" name="_password">
+        <div class="alert alert-danger" id="customerdetails_password" style="display: none;"></div>
     </div>
 
     <input type="hidden" name="_custId" value="@Model">
