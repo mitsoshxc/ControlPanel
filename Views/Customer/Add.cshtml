@@ -3,7 +3,7 @@
 }
 
 
-<form asp-action="Add" method="POST" role="form" name="add_customer"
+<form asp-action="Add" method="POST" role="form" name="customer"
         onsubmit="return AddCustValidate()">
     <legend>Add New Customer</legend>
 
@@ -16,7 +16,6 @@
     <div class="form-group">
         <label>Website</label>
         <input type="text" class="form-control" name="_website">
-        <div class="alert alert-danger" id="customer_website" style="display: none;"></div>
     </div>
 
     <div class="form-group">
