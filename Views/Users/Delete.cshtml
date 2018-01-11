@@ -8,14 +8,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Really delete user @model.Name ?</h4>
+                <h4 class="modal-title">Really delete user @Model.Name ?</h4>
             </div>
             <div class="modal-body">
                 
                 <form asp-action="Delete" method="POST" role="form">
                     <div class="form-group">
-                        <input type="hidden"  name="_id" value="@model.id">
-                        <input type="hidden"  name="_name" value="@model.Name">
+                        <input type="hidden"  name="_id" value="@Model.id">
+                        <input type="hidden"  name="_name" value="@Model.Name">
                     </div>
                     
                     <button type="submit" class="btn btn-primary">Submit</button>
