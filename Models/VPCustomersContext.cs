@@ -13,5 +13,7 @@ namespace VPCustInfo.Models
         public DbSet<VPCustInfo.Models.Customers> Customer { get; set; }
 
         public DbSet<VPCustInfo.Models.CustomersDetails> CustomerDetails { get; set; }
+
+        public DbSet<VPCustInfo.Models.Payments> Payment { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-@model IEnumerable<VPCustInfo.Models.CustomersDetails>
+@model IEnumerable<VPCustInfo.Models.Payments>
 
 @if ((bool)TempData.ContainsKey("ActionError"))
 {
@@ -15,7 +15,7 @@ else if ((bool)TempData.ContainsKey("ActionSuccess"))
     </div>
 }
 
-<h3>Customer's @ViewData["Name"] Details</h3>
+<h3>Customer's @ViewData["Name"] Payments Details</h3>
 @if ((bool)ViewData.ContainsKey("Website")) {
     <h4>
         You can also check  <a href="http://@ViewData["Website"]" target="_blank">
@@ -30,30 +30,28 @@ else if ((bool)TempData.ContainsKey("ActionSuccess"))
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th>Entry Type</th>
-                    <th>User Name </th>
-                    <th>Password</th>
+                    <th>Payment Type</th>
+                    <th>Amount</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var _custDetails in Model)
+                @foreach (var _custPayment in Model)
                 {
                     <tr>
-                        <td>@_custDetails.Type.Decrypt()</td>
-                        <td>@_custDetails.UserName.Decrypt()</td>
-                        <td>@_custDetails.Password.Decrypt()</td>
+                        <td>@_custPayment.Type.Decrypt()</td>
+                        <td>@_custPayment.Amount.Decrypt()</td>
                         <td>
                             <a class="btn btn-primary" role="button" title="Edit Customer's Details"
                                     asp-action="Edit" asp-controller="CustomerDetails"
-                                    asp-route-id="@_custDetails.CustomerId"
-                                    asp-route-LineNo="@_custDetails.id">
+                                    asp-route-id="@_custPayment.CustomerId"
+                                    asp-route-LineNo="@_custPayment.id">
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true" />
                             </a>
 
                             <a class="btn btn-danger" role="button" title="Remove Customer's Details"
                                     asp-action="Delete" asp-controller="CustomerDetails"
-                                    asp-route-id="@_custDetails.CustomerId"
-                                    asp-route-LineNo="@_custDetails.id">
+                                    asp-route-id="@_custPayment.CustomerId"
+                                    asp-route-LineNo="@_custPayment.id">
                                 <span class="glyphicon glyphicon-remove" aria-hidden="true" />
                             </a>
                         </td>
@@ -65,8 +63,8 @@ else if ((bool)TempData.ContainsKey("ActionSuccess"))
 }
 
 <a class="btn btn-primary" role="button" title="Add Customer's Details"
-        asp-action="Add" asp-controller="CustomerDetails" asp-route-id="@ViewData["CustId"]">
-    Add Details
+        asp-action="Add" asp-controller="Payments" asp-route-id="@ViewData["CustId"]">
+    Add Payment
 </a>
 
 <a class="btn btn-primary" role="button" asp-action="Customers" asp-controller="Home">
