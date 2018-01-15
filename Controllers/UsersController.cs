@@ -106,7 +106,7 @@ namespace VPCustInfo.Controllers
             {
                 await CustomersContext.User.AddAsync(new Models.Users()
                 {
-                    Name = _name,
+                    Name = _name.Encrypt(),
                     Pass = _pass.Encrypt(),
                     Rank = _rank
                 });

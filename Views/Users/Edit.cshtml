@@ -1,15 +1,15 @@
 @model VPCustInfo.Models.Users
 
 @{
-    ViewData["Title"] = "Edit User" +  Model.Name;
+    ViewData["Title"] = "Edit User" +  Model.Name.Decrypt();
 }
 
 
 <form asp-action="Edit" method="POST" role="form" name="user"
         onsubmit="return UserValidation()">
-    <legend>Edit User  @Model.Name</legend>
+    <legend>Edit User  @Model.Name.Decrypt()</legend>
 
-    <input type="hidden" name="_name" value="@Model.Name">
+    <input type="hidden" name="_name" value="@Model.Name.Decrypt()">
     <div class="alert alert-danger" id="user_name" style="display: none;"></div>
 
     <div class="form-group">

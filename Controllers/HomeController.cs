@@ -42,7 +42,7 @@ namespace VPCustInfo.Controllers
                     return RedirectToAction("Index");
                 }
                 var _uId = await (from n in CustomersContext.User
-                                  where n.Name == _name && n.Pass == _pass.Encrypt()
+                                  where n.Name.Decrypt() == _name && n.Pass == _pass.Encrypt()
                                   select n.id).FirstOrDefaultAsync();
                 if (_uId > 0)
                 {
