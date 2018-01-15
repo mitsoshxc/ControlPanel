@@ -23,7 +23,7 @@ namespace VPCustInfo.Controllers
                 {
                     var _customerPay = await (from t0 in CustomersContext.Payment
                                               where t0.CustomerId == id
-                                              select t0).FirstAsync();
+                                              select t0).ToListAsync();
 
                     var _customer = await (from t0 in CustomersContext.Customer
                                            where t0.id == id
@@ -44,6 +44,27 @@ namespace VPCustInfo.Controllers
                     TempData["ActionError"] = ex.Message;
 
                     return RedirectToAction("Customers", "Home");
+                }
+            }
+            else
+            {
+                TempData["SessionExpired"] = true;
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        public IActionResult Add(int id)
+        {
+            if (HttpContext.Session.GetSession<string>("User") != null)
+            {
+                try
+                {
+                    return View(id);
+                }
+                catch (Exception ex)
+                {
+                    TempData["ActionError"] = ex.Message;
+                    return RedirectToAction("Customer", new { id = id });
                 }
             }
             else

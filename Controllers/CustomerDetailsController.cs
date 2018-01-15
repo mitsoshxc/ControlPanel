@@ -53,16 +53,12 @@ namespace VPCustInfo.Controllers
             }
         }
 
-        public async Task<IActionResult> Add(int id)
+        public IActionResult Add(int id)
         {
             if (HttpContext.Session.GetSession<string>("User") != null)
             {
                 try
                 {
-                    await (from t0 in CustomersContext.Customer
-                           where t0.id == id
-                           select t0).FirstAsync();
-
                     return View(id);
                 }
                 catch (Exception ex)

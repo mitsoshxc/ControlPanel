@@ -1,0 +1,29 @@
+@{
+    ViewData["Title"] = "Add Customer's Payments Details";
+}
+
+
+<form asp-action="Add" method="POST" role="form" name="customerpayments"
+        onsubmit="return CustDetailsValidate()">
+    <legend>Add Customer's Payments Details</legend>
+
+    <div class="form-group">
+        <label>Payment Type</label>
+        <input type="text" class="form-control" name="_type">
+        <div class="alert alert-danger" id="customerpayment_type" style="display: none;"></div>
+    </div>
+
+    <div class="form-group">
+        <label>Payment Amount</label>
+        <input type="text" class="form-control" name="_amount">
+        <div class="alert alert-danger" id="customerpayment_amount" style="display: none;"></div>
+    </div>
+
+    <input type="hidden" name="_custId" value="@Model">
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+    <a class="btn btn-primary" role="button" asp-action="Customer" asp-route-id="@Model">
+        To Payments Details
+    </a>
+</form>

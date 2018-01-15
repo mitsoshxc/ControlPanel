@@ -75,3 +75,26 @@ function UserValidation() {
 
     return _res;
 }
+//
+// Customer's Payments Details
+//
+function PaymentsValidation() {
+    var _res = true;
+
+    document.getElementById("customerpayment_type").style.display = "none";
+    document.getElementById("customerpayment_amount").style.display = "none";
+
+    if (document.forms["customerpayments"]["_type"].value == "") {
+        document.getElementById("customerpayment_type").innerHTML = "Payment's type can not be empty!";
+        document.getElementById("customerpayment_type").style.display = "block";
+        _res = false;
+    }
+
+    if (document.forms["customerpayments"]["_amount"].value == "") {
+        document.getElementById("user_rank").innerHTML = "Payment's amount can not be empty!";
+        document.getElementById("user_rank").style.display = "block";
+        _res = false;
+    }
+
+    return _res;
+}
