@@ -111,21 +111,34 @@ namespace VPCustInfo.Controllers
                 var _custDetails = from t0 in CustomersContext.CustomerDetails
                                    where t0.CustomerId == _id
                                    select t0;
-                
+
                 foreach (var _element in _custDetails)
                 {
                     CustomersContext.CustomerDetails.Remove(_element);
                 }
+                
+                await CustomersContext.SaveChangesAsync();
+                //
+                // Remove customer's payments details now
+                //
+                var _custPayment = from t0 in CustomersContext.Payment
+                                   where t0.CustomerId == _id
+                                   select t0;
+                
+                foreach (var _element in _custPayment)
+                {
+                    CustomersContext.Payment.Remove(_element);
+                }
 
                 await CustomersContext.SaveChangesAsync();
                 //
-                // Remove customer
+                // Remove customer last
                 //
                 CustomersContext.Customer.Remove(await (from cust in CustomersContext.Customer
                                                         where cust.id == _id
                                                         select cust).FirstAsync()
                                                 );
-                                                
+
                 await CustomersContext.SaveChangesAsync();
 
                 TempData["ActionSuccess"] = "Successfully removed customer " + _name;
