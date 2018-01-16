@@ -31,7 +31,8 @@ namespace VPCustInfo.Controllers
 
                     ViewData["Title"] = _customer.Name + "'s Payment Details";
                     ViewData["Name"] = _customer.Name;
-                    
+                    ViewData["CustId"] = _customer.id;
+
                     if (_customer.Website.Length > 0)
                     {
                         ViewData["Website"] = _customer.Website;
@@ -71,6 +72,33 @@ namespace VPCustInfo.Controllers
             {
                 TempData["SessionExpired"] = true;
                 return RedirectToAction("Index", "Home");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Add(int _custId, string _type, double _amount)
+        {
+            try
+            {
+                await CustomersContext.Payment.AddAsync(new Models.Payments
+                {
+                    CustomerId = _custId,
+                    Type = _type.Encrypt(),
+                    Amount = _amount
+                });
+
+                await CustomersContext.SaveChangesAsync();
+
+                TempData["ActionSuccess"] = "Successfully added customer's payments details.";
+
+                return RedirectToAction("Customer", new { id = _custId });
+            }
+            catch (Exception ex)
+            {
+                TempData["ActionError"] = "Error adding customer's payments details.   " + ex.InnerException;
+
+                return RedirectToAction("Customer", new { id = _custId });
             }
         }
     }
