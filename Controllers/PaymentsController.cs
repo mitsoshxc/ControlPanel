@@ -106,5 +106,60 @@ namespace VPCustInfo.Controllers
                 return RedirectToAction("Customer", new { id = _custId });
             }
         }
+
+        public async Task<IActionResult> Edit(int id, int LineNo)
+        {
+            if (HttpContext.Session.GetSession<string>("User") != null)
+            {
+                try
+                {
+                    ViewData["Name"] = await (from t0 in CustomersContext.Customer
+                                              where t0.id == id
+                                              select t0.Name).FirstAsync();
+
+                    return View(await (from t0 in CustomersContext.Payment
+                                       where t0.CustomerId == id && t0.LineNo == LineNo
+                                       select t0).FirstAsync());
+                }
+                catch (Exception ex)
+                {
+                    TempData["ActionError"] = ex.Message;
+
+                    return RedirectToAction("Customer", new { id = id });
+                }
+            }
+            else
+            {
+                TempData["SessionExpired"] = true;
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int _id, int _custId, string _type = "", double _amount = 0)
+        {
+            try
+            {
+                var _custDetailLine = await (from t0 in CustomersContext.Payment
+                                             where t0.id == _id
+                                             select t0).FirstAsync();
+
+                _custDetailLine.Type = _type.Encrypt();
+                _custDetailLine.Amount = _amount;
+
+                await CustomersContext.SaveChangesAsync();
+
+                TempData["ActionSuccess"] = "Successfully edited customer's payments details.";
+
+                return RedirectToAction("Customer", new { id = _custId });
+            }
+            catch (Exception ex)
+            {
+                TempData["ActionError"] = "Error editing customer's payments details.   " + ex.InnerException;
+
+                return RedirectToAction("Customer", new { id = _custId });
+            }
+        }
     }
 }

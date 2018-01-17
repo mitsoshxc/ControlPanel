@@ -160,7 +160,7 @@ namespace VPCustInfo.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ActionError"] = "Error adding customer's details.   " + ex.InnerException;
+                TempData["ActionError"] = "Error editing customer's details.   " + ex.InnerException;
 
                 return RedirectToAction("Customer", new { id = _custId });
             }

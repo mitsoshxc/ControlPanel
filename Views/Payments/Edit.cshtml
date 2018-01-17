@@ -1,0 +1,32 @@
+@model VPCustInfo.Models.CustomersDetails
+
+@{
+    ViewData["Title"] = "Edit Customer's Payments Details";
+}
+
+
+<form asp-action="Edit" method="POST" role="form" name="customerpayments"
+        onsubmit="return CustDetailsValidate()">
+    <legend>Edit Customer's  @ViewData["Name"]  Payments Details</legend>
+
+    <div class="form-group">
+        <label>Payment Type</label>
+        <input type="text" class="form-control" name="_type" value="@Model.Type.Decrypt()">
+        <div class="alert alert-danger" id="customerpayment_type" style="display: none;"></div>
+    </div>
+
+    <div class="form-group">
+        <label>Payment Amount</label>
+        <input type="text" class="form-control" name="_amount" value="@Model.Amount">
+        <div class="alert alert-danger" id="customerpayment_amount" style="display: none;"></div>
+    </div>
+
+    <input type="hidden" name="_id" value="@Model.id">
+    <input type="hidden" name="_custId" value="@Model.CustomerId">
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+    <a asp-action="Customer" asp-route-id="@Model.CustomerId">
+        <button type="button" class="btn btn-primary">To Details</button>
+    </a>
+</form>
