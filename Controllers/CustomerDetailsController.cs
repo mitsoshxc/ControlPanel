@@ -82,9 +82,14 @@ namespace VPCustInfo.Controllers
         {
             try
             {
+                var _LastLine = await (from t0 in CustomersContext.CustomerDetails
+                                       where t0.CustomerId == _custId
+                                       select t0.LineNo).LastOrDefaultAsync();
+
                 await CustomersContext.CustomerDetails.AddAsync(new Models.CustomersDetails
                 {
                     CustomerId = _custId,
+                    LineNo = _LastLine + 1,
                     Type = _type.Encrypt(),
                     UserName = _username.Encrypt(),
                     Password = _password.Encrypt()
@@ -115,7 +120,7 @@ namespace VPCustInfo.Controllers
                                               select t0.Name).FirstAsync();
 
                     return View(await (from t0 in CustomersContext.CustomerDetails
-                                       where t0.id == LineNo
+                                       where t0.CustomerId == id && t0.LineNo == LineNo
                                        select t0).FirstAsync());
                 }
                 catch (Exception ex)
@@ -168,7 +173,7 @@ namespace VPCustInfo.Controllers
                 try
                 {
                     await (from t0 in CustomersContext.CustomerDetails
-                           where t0.id == LineNo
+                           where t0.CustomerId == id && t0.LineNo == LineNo
                            select t0).FirstAsync();
 
                     ViewData["id"] = id;
@@ -191,15 +196,26 @@ namespace VPCustInfo.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int? _id, int _custId)
+        public async Task<IActionResult> Delete(int _custId, int? _lineNo)
         {
             try
             {
                 CustomersContext.CustomerDetails.Remove(
                     await (from t0 in CustomersContext.CustomerDetails
-                           where t0.id == _id
+                           where t0.CustomerId == _custId && t0.LineNo == _lineNo
                            select t0).FirstAsync()
                 );
+
+                await CustomersContext.SaveChangesAsync();
+
+                var _custDetails = await (from t0 in CustomersContext.CustomerDetails
+                                          where t0.CustomerId == _custId && t0.LineNo > _lineNo
+                                          select t0).ToListAsync();
+
+                foreach (var _element in _custDetails)
+                {
+                    _element.LineNo -= 1;
+                }
 
                 await CustomersContext.SaveChangesAsync();
 

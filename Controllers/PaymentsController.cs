@@ -81,9 +81,14 @@ namespace VPCustInfo.Controllers
         {
             try
             {
+                var _LastLine = await (from t0 in CustomersContext.CustomerDetails
+                                       where t0.CustomerId == _custId
+                                       select t0.LineNo).LastOrDefaultAsync();
+                
                 await CustomersContext.Payment.AddAsync(new Models.Payments
                 {
                     CustomerId = _custId,
+                    LineNo = _LastLine + 1,
                     Type = _type.Encrypt(),
                     Amount = _amount
                 });

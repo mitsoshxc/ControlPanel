@@ -7,6 +7,7 @@ namespace VPCustInfo.Models
     {
         public int id { get; set; }
         public int CustomerId { get; set; }
+        public int LineNo { get; set; }
         public string Type { get; set; }
         public double Amount { get; set; } 
     }
