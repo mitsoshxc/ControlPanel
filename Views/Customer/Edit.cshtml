@@ -2,7 +2,7 @@
 
 @{ ViewData["Title"] = "Edit Customer " + Model.Name; }
 
-<form asp-action="Edit" method="POST" role="form" name="customer"
+<form asp-action="Edit" method="POST" role="form" name="customer" autocomplete="off"
         onsubmit="return CustomerValidate()">
     <legend>Edit Customer  @Model.Name</legend>
     <input type="hidden" name="_id" value="@Model.id">
