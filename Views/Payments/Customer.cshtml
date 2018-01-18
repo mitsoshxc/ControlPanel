@@ -44,14 +44,14 @@ else if ((bool)TempData.ContainsKey("ActionSuccess"))
                             <a class="btn btn-primary" role="button" title="Edit Customer's Details"
                                     asp-action="Edit"
                                     asp-route-id="@_custPayment.CustomerId"
-                                    asp-route-LineNo="@_custPayment.id">
+                                    asp-route-LineNo="@_custPayment.LineNo">
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true" />
                             </a>
 
                             <a class="btn btn-danger" role="button" title="Remove Customer's Details"
                                     asp-action="Delete"
                                     asp-route-id="@_custPayment.CustomerId"
-                                    asp-route-LineNo="@_custPayment.id">
+                                    asp-route-LineNo="@_custPayment.LineNo">
                                 <span class="glyphicon glyphicon-remove" aria-hidden="true" />
                             </a>
                         </td>

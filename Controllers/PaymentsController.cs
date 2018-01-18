@@ -161,5 +161,70 @@ namespace VPCustInfo.Controllers
                 return RedirectToAction("Customer", new { id = _custId });
             }
         }
+
+        public async Task<IActionResult> Delete(int id, int LineNo)
+        {
+            if (HttpContext.Session.GetSession<string>("User") != null)
+            {
+                try
+                {
+                    await (from t0 in CustomersContext.Payment
+                           where t0.CustomerId == id && t0.LineNo == LineNo
+                           select t0).FirstAsync();
+
+                    ViewData["id"] = id;
+
+                    return View(LineNo);
+                }
+                catch (Exception ex)
+                {
+                    TempData["ActionError"] = ex.Message;
+
+                    return RedirectToAction("Customer", new { id = id });
+                }
+            }
+            else
+            {
+                TempData["SessionExpired"] = true;
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int _custId, int? _lineNo)
+        {
+            try
+            {
+                CustomersContext.Payment.Remove(
+                    await (from t0 in CustomersContext.Payment
+                           where t0.CustomerId == _custId && t0.LineNo == _lineNo
+                           select t0).FirstAsync()
+                );
+
+                await CustomersContext.SaveChangesAsync();
+
+                var _custPaymentsDetails = await (from t0 in CustomersContext.Payment
+                                          where t0.CustomerId == _custId && t0.LineNo > _lineNo
+                                          select t0).ToListAsync();
+
+                foreach (var _element in _custPaymentsDetails)
+                {
+                    _element.LineNo -= 1;
+                }
+
+                await CustomersContext.SaveChangesAsync();
+
+                TempData["ActionSuccess"] = "Successfully removed customer's payment details.";
+
+                return RedirectToAction("Customer", new { id = _custId });
+            }
+            catch (Exception ex)
+            {
+                TempData["ActionError"] = "Error removing customer's payment details.   " + ex.InnerException;
+
+                return RedirectToAction("Customer", new { id = _custId });
+            }
+        }
     }
 }
