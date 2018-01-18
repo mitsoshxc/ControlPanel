@@ -1,6 +1,6 @@
 using System;
 
-namespace VPCustInfo.Models
+namespace ControlPanel.Models
 {
     public class ErrorViewModel
     {

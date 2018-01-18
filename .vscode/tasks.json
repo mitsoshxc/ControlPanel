@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/VPCustInfo.csproj"
+                "${workspaceFolder}/ControlPanel.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

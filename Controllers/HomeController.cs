@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
 
 
-namespace VPCustInfo.Controllers
+namespace ControlPanel.Controllers
 {
     public class HomeController : Controller
     {

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 
-namespace VPCustInfo.Controllers
+namespace ControlPanel.Controllers
 {
     public class UsersController : Controller
     {

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace VPCustInfo.Models
+namespace ControlPanel.Models
 {
     [Table("CustomersDetails")]
     public class CustomersDetails

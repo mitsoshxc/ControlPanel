@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace VPCustInfo.Models
+namespace ControlPanel.Models
 {
     public class VPCustomersContext : DbContext
     {
@@ -8,12 +8,12 @@ namespace VPCustInfo.Models
         //
         // Database's tables
         //
-        public DbSet<VPCustInfo.Models.Users> User { get; set; }
+        public DbSet<ControlPanel.Models.Users> User { get; set; }
 
-        public DbSet<VPCustInfo.Models.Customers> Customer { get; set; }
+        public DbSet<ControlPanel.Models.Customers> Customer { get; set; }
 
-        public DbSet<VPCustInfo.Models.CustomersDetails> CustomerDetails { get; set; }
+        public DbSet<ControlPanel.Models.CustomersDetails> CustomerDetails { get; set; }
 
-        public DbSet<VPCustInfo.Models.Payments> Payment { get; set; }
+        public DbSet<ControlPanel.Models.Payments> Payment { get; set; }
     }
 }

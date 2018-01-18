@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System.Security.Cryptography;
 
-namespace VPCustInfo
+namespace ControlPanel
 {
     public static class Extensions
     {
