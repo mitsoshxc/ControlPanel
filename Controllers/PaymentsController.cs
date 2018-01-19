@@ -81,7 +81,7 @@ namespace ControlPanel.Controllers
         {
             try
             {
-                var _LastLine = await (from t0 in CustomersContext.CustomerDetails
+                var _LastLine = await (from t0 in CustomersContext.Payment
                                        where t0.CustomerId == _custId
                                        select t0.LineNo).LastOrDefaultAsync();
                 
