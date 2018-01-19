@@ -77,7 +77,7 @@ namespace ControlPanel.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Add(int _custId, string _type, double _amount)
+        public async Task<IActionResult> Add(int _custId, string _type, string _date, double _amount)
         {
             try
             {
@@ -90,6 +90,7 @@ namespace ControlPanel.Controllers
                     CustomerId = _custId,
                     LineNo = _LastLine + 1,
                     Type = _type.Encrypt(),
+                    Date = _date.Encrypt(),
                     Amount = _amount
                 });
 
@@ -137,7 +138,8 @@ namespace ControlPanel.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int _id, int _custId, string _type = "", double _amount = 0)
+        public async Task<IActionResult> Edit(int _id, int _custId, string _type = "",
+            string _date = "", double _amount = 0)
         {
             try
             {
@@ -146,6 +148,7 @@ namespace ControlPanel.Controllers
                                              select t0).FirstAsync();
 
                 _custDetailLine.Type = _type.Encrypt();
+                _custDetailLine.Date = _date.Encrypt();
                 _custDetailLine.Amount = _amount;
 
                 await CustomersContext.SaveChangesAsync();

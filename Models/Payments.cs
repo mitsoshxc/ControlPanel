@@ -9,6 +9,7 @@ namespace ControlPanel.Models
         public int CustomerId { get; set; }
         public int LineNo { get; set; }
         public string Type { get; set; }
-        public double Amount { get; set; } 
+        public string Date { get; set; }
+        public double Amount { get; set; }
     }
 }
