@@ -41,7 +41,7 @@ else if ((bool)TempData.ContainsKey("ActionSuccess"))
                     <tr>
                         <td>@_custPayment.Type.Decrypt()</td>
                         <td>@_custPayment.Date.Decrypt()</td>
-                        <td>@_custPayment.Amount</td>
+                        <td>@_custPayment.Amount &euro;</td>
                         <td>
                             <a class="btn btn-primary" role="button" title="Edit Customer's Details"
                                     asp-action="Edit"
