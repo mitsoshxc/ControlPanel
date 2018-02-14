@@ -57,15 +57,23 @@ namespace ControlPanel.Controllers
         {
             if (HttpContext.Session.GetSession<string>("User") != null)
             {
-                try
+                if (HttpContext.Session.GetSession<int>("Rank") < 3)
                 {
-                    return View(id);
-                }
-                catch (Exception ex)
-                {
-                    TempData["ActionError"] = ex.Message;
+                    try
+                    {
+                        return View(id);
+                    }
+                    catch (Exception ex)
+                    {
+                        TempData["ActionError"] = ex.Message;
 
-                    return RedirectToAction("Customer", new { id = id });
+                        return RedirectToAction("Customer", new { id = id });
+                    }
+                }
+                else
+                {
+                    TempData["Unprivileged"] = HttpContext.Session.GetSession<int>("Rank");
+                    return RedirectToAction("Customers", "Home");
                 }
             }
             else
@@ -113,21 +121,29 @@ namespace ControlPanel.Controllers
         {
             if (HttpContext.Session.GetSession<string>("User") != null)
             {
-                try
+                if (HttpContext.Session.GetSession<int>("Rank") < 2)
                 {
-                    ViewData["Name"] = await (from t0 in CustomersContext.Customer
-                                              where t0.id == id
-                                              select t0.Name).FirstAsync();
+                    try
+                    {
+                        ViewData["Name"] = await (from t0 in CustomersContext.Customer
+                                                  where t0.id == id
+                                                  select t0.Name).FirstAsync();
 
-                    return View(await (from t0 in CustomersContext.CustomerDetails
-                                       where t0.CustomerId == id && t0.LineNo == LineNo
-                                       select t0).FirstAsync());
+                        return View(await (from t0 in CustomersContext.CustomerDetails
+                                           where t0.CustomerId == id && t0.LineNo == LineNo
+                                           select t0).FirstAsync());
+                    }
+                    catch (Exception ex)
+                    {
+                        TempData["ActionError"] = ex.Message;
+
+                        return RedirectToAction("Customer", new { id = id });
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    TempData["ActionError"] = ex.Message;
-
-                    return RedirectToAction("Customer", new { id = id });
+                    TempData["Unprivileged"] = HttpContext.Session.GetSession<int>("Rank");
+                    return RedirectToAction("Customers", "Home");
                 }
             }
             else
@@ -170,21 +186,29 @@ namespace ControlPanel.Controllers
         {
             if (HttpContext.Session.GetSession<string>("User") != null)
             {
-                try
+                if (HttpContext.Session.GetSession<int>("Rank") < 2)
                 {
-                    await (from t0 in CustomersContext.CustomerDetails
-                           where t0.CustomerId == id && t0.LineNo == LineNo
-                           select t0).FirstAsync();
+                    try
+                    {
+                        await (from t0 in CustomersContext.CustomerDetails
+                               where t0.CustomerId == id && t0.LineNo == LineNo
+                               select t0).FirstAsync();
 
-                    ViewData["id"] = id;
+                        ViewData["id"] = id;
 
-                    return View(LineNo);
+                        return View(LineNo);
+                    }
+                    catch (Exception ex)
+                    {
+                        TempData["ActionError"] = ex.Message;
+
+                        return RedirectToAction("Customer", new { id = id });
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    TempData["ActionError"] = ex.Message;
-
-                    return RedirectToAction("Customer", new { id = id });
+                    TempData["Unprivileged"] = HttpContext.Session.GetSession<int>("Rank");
+                    return RedirectToAction("Customers", "Home");
                 }
             }
             else

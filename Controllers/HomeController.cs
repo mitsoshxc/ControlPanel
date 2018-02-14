@@ -41,13 +41,15 @@ namespace ControlPanel.Controllers
                     TempData["NoUserName"] = "true";
                     return RedirectToAction("Index");
                 }
-                var _uId = await (from n in CustomersContext.User
+                var _User = await (from n in CustomersContext.User
                                   where n.Name.Decrypt() == _name && n.Pass == _pass.Encrypt()
-                                  select n.id).FirstOrDefaultAsync();
-                if (_uId > 0)
+                                  select n).FirstOrDefaultAsync();
+                                  
+                if (_User != null)
                 {
                     HttpContext.Session.SetSession<string>("User", _name);
-                    HttpContext.Session.SetSession<int>("UserId", _uId);
+                    HttpContext.Session.SetSession<int>("UserId", _User.id);
+                    HttpContext.Session.SetSession<int>("Rank", _User.Rank);
 
                     return RedirectToAction("Customers");
                 }

@@ -5,8 +5,7 @@
 }
 
 
-<form asp-action="Edit" method="POST" role="form" name="user" autocomplete="off"
-        onsubmit="return UserValidation()">
+<form asp-action="Edit" method="POST" role="form" name="user" autocomplete="off">
     <legend>Edit User  @Model.Name.Decrypt()</legend>
 
     <input type="hidden" name="_name" value="@Model.Name.Decrypt()">

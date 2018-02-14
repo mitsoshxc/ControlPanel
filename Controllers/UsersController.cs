@@ -41,10 +41,18 @@ namespace ControlPanel.Controllers
         {
             if (HttpContext.Session.GetSession<string>("User") != null)
             {
-                return View(await (from _us in CustomersContext.User
-                                   where _us.id == id
-                                   select _us).FirstOrDefaultAsync()
-                            );
+                if (HttpContext.Session.GetSession<int>("Rank") < 2)
+                {
+                    return View(await (from _us in CustomersContext.User
+                                       where _us.id == id
+                                       select _us).FirstOrDefaultAsync()
+                                );
+                }
+                else
+                {
+                    TempData["Unprivileged"] = HttpContext.Session.GetSession<int>("Rank");
+                    return RedirectToAction("Customers", "Home");
+                }
             }
             else
             {
@@ -75,7 +83,13 @@ namespace ControlPanel.Controllers
 
                 await CustomersContext.SaveChangesAsync();
 
-                TempData["ActionSuccess"] = "Successfully edited user " + _user.Name;
+                var _Rank = await (from t0 in CustomersContext.User
+                                   where t0.id == HttpContext.Session.GetSession<int>("UserId")
+                                   select t0.Rank).FirstOrDefaultAsync();
+
+                HttpContext.Session.SetSession<int>("Rank", _Rank);
+
+                TempData["ActionSuccess"] = "Successfully edited user " + _user.Name.Decrypt();
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -89,7 +103,15 @@ namespace ControlPanel.Controllers
         {
             if (HttpContext.Session.GetSession<string>("User") != null)
             {
-                return View();
+                if (HttpContext.Session.GetSession<int>("Rank") < 3)
+                {
+                    return View();
+                }
+                else
+                {
+                    TempData["Unprivileged"] = HttpContext.Session.GetSession<int>("Rank");
+                    return RedirectToAction("Customers", "Home");
+                }
             }
             else
             {
@@ -129,9 +151,17 @@ namespace ControlPanel.Controllers
         {
             if (HttpContext.Session.GetSession<string>("User") != null)
             {
-                return View(await (from t0 in CustomersContext.User
-                                   where t0.id == id
-                                   select t0).FirstAsync());
+                if (HttpContext.Session.GetSession<int>("Rank") < 2)
+                {
+                    return View(await (from t0 in CustomersContext.User
+                                       where t0.id == id
+                                       select t0).FirstAsync());
+                }
+                else
+                {
+                    TempData["Unprivileged"] = HttpContext.Session.GetSession<int>("Rank");
+                    return RedirectToAction("Customers", "Home");
+                }
             }
             else
             {

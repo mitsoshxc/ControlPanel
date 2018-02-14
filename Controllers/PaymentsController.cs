@@ -58,14 +58,22 @@ namespace ControlPanel.Controllers
         {
             if (HttpContext.Session.GetSession<string>("User") != null)
             {
-                try
+                if (HttpContext.Session.GetSession<int>("Rank") < 3)
                 {
-                    return View(id);
+                    try
+                    {
+                        return View(id);
+                    }
+                    catch (Exception ex)
+                    {
+                        TempData["ActionError"] = ex.Message;
+                        return RedirectToAction("Customer", new { id = id });
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    TempData["ActionError"] = ex.Message;
-                    return RedirectToAction("Customer", new { id = id });
+                    TempData["Unprivileged"] = HttpContext.Session.GetSession<int>("Rank");
+                    return RedirectToAction("Customers", "Home");
                 }
             }
             else
@@ -84,7 +92,7 @@ namespace ControlPanel.Controllers
                 var _LastLine = await (from t0 in CustomersContext.Payment
                                        where t0.CustomerId == _custId
                                        select t0.LineNo).LastOrDefaultAsync();
-                
+
                 await CustomersContext.Payment.AddAsync(new Models.Payments
                 {
                     CustomerId = _custId,
@@ -112,21 +120,29 @@ namespace ControlPanel.Controllers
         {
             if (HttpContext.Session.GetSession<string>("User") != null)
             {
-                try
+                if (HttpContext.Session.GetSession<int>("Rank") < 2)
                 {
-                    ViewData["Name"] = await (from t0 in CustomersContext.Customer
-                                              where t0.id == id
-                                              select t0.Name).FirstAsync();
+                    try
+                    {
+                        ViewData["Name"] = await (from t0 in CustomersContext.Customer
+                                                  where t0.id == id
+                                                  select t0.Name).FirstAsync();
 
-                    return View(await (from t0 in CustomersContext.Payment
-                                       where t0.CustomerId == id && t0.LineNo == LineNo
-                                       select t0).FirstAsync());
+                        return View(await (from t0 in CustomersContext.Payment
+                                           where t0.CustomerId == id && t0.LineNo == LineNo
+                                           select t0).FirstAsync());
+                    }
+                    catch (Exception ex)
+                    {
+                        TempData["ActionError"] = ex.Message;
+
+                        return RedirectToAction("Customer", new { id = id });
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    TempData["ActionError"] = ex.Message;
-
-                    return RedirectToAction("Customer", new { id = id });
+                    TempData["Unprivileged"] = HttpContext.Session.GetSession<int>("Rank");
+                    return RedirectToAction("Customers", "Home");
                 }
             }
             else
@@ -169,21 +185,29 @@ namespace ControlPanel.Controllers
         {
             if (HttpContext.Session.GetSession<string>("User") != null)
             {
-                try
+                if (HttpContext.Session.GetSession<int>("Rank") < 2)
                 {
-                    await (from t0 in CustomersContext.Payment
-                           where t0.CustomerId == id && t0.LineNo == LineNo
-                           select t0).FirstAsync();
+                    try
+                    {
+                        await (from t0 in CustomersContext.Payment
+                               where t0.CustomerId == id && t0.LineNo == LineNo
+                               select t0).FirstAsync();
 
-                    ViewData["id"] = id;
+                        ViewData["id"] = id;
 
-                    return View(LineNo);
+                        return View(LineNo);
+                    }
+                    catch (Exception ex)
+                    {
+                        TempData["ActionError"] = ex.Message;
+
+                        return RedirectToAction("Customer", new { id = id });
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    TempData["ActionError"] = ex.Message;
-
-                    return RedirectToAction("Customer", new { id = id });
+                    TempData["Unprivileged"] = HttpContext.Session.GetSession<int>("Rank");
+                    return RedirectToAction("Customers", "Home");
                 }
             }
             else
@@ -208,8 +232,8 @@ namespace ControlPanel.Controllers
                 await CustomersContext.SaveChangesAsync();
 
                 var _custPaymentsDetails = await (from t0 in CustomersContext.Payment
-                                          where t0.CustomerId == _custId && t0.LineNo > _lineNo
-                                          select t0).ToListAsync();
+                                                  where t0.CustomerId == _custId && t0.LineNo > _lineNo
+                                                  select t0).ToListAsync();
 
                 foreach (var _element in _custPaymentsDetails)
                 {

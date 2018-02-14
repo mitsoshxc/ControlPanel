@@ -19,16 +19,24 @@ namespace ControlPanel.Controllers
         {
             if (HttpContext.Session.GetSession<string>("User") != null)
             {
-                try
+                if (HttpContext.Session.GetSession<int>("Rank") < 2)
                 {
-                    return View(await (from us in CustomersContext.Customer
-                                       where us.id == id
-                                       select us).FirstAsync());
-                }
-                catch (Exception ex)
-                {
-                    TempData["ActionError"] = ex.Message;
+                    try
+                    {
+                        return View(await (from us in CustomersContext.Customer
+                                           where us.id == id
+                                           select us).FirstAsync());
+                    }
+                    catch (Exception ex)
+                    {
+                        TempData["ActionError"] = ex.Message;
 
+                        return RedirectToAction("Customers", "Home");
+                    }
+                }
+                else
+                {
+                    TempData["Unprivileged"] = HttpContext.Session.GetSession<int>("Rank");
                     return RedirectToAction("Customers", "Home");
                 }
             }
@@ -79,16 +87,24 @@ namespace ControlPanel.Controllers
         {
             if (HttpContext.Session.GetSession<string>("User") != null)
             {
-                try
+                if (HttpContext.Session.GetSession<int>("Rank") < 2)
                 {
-                    return View(await (from cust in CustomersContext.Customer
-                                       where cust.id == id
-                                       select cust).FirstAsync());
-                }
-                catch (Exception ex)
-                {
-                    TempData["ActionError"] = ex.Message;
+                    try
+                    {
+                        return View(await (from cust in CustomersContext.Customer
+                                           where cust.id == id
+                                           select cust).FirstAsync());
+                    }
+                    catch (Exception ex)
+                    {
+                        TempData["ActionError"] = ex.Message;
 
+                        return RedirectToAction("Customers", "Home");
+                    }
+                }
+                else
+                {
+                    TempData["Unprivileged"] = HttpContext.Session.GetSession<int>("Rank");
                     return RedirectToAction("Customers", "Home");
                 }
             }
@@ -116,7 +132,7 @@ namespace ControlPanel.Controllers
                 {
                     CustomersContext.CustomerDetails.Remove(_element);
                 }
-                
+
                 await CustomersContext.SaveChangesAsync();
                 //
                 // Remove customer's payments details now
@@ -124,7 +140,7 @@ namespace ControlPanel.Controllers
                 var _custPayment = from t0 in CustomersContext.Payment
                                    where t0.CustomerId == _id
                                    select t0;
-                
+
                 foreach (var _element in _custPayment)
                 {
                     CustomersContext.Payment.Remove(_element);
@@ -157,12 +173,20 @@ namespace ControlPanel.Controllers
         {
             if (HttpContext.Session.GetSession<string>("User") != null)
             {
-                return View();
+                if (HttpContext.Session.GetSession<int>("Rank") < 3)
+                {
+                    return View();
+                }
+                else
+                {
+                    TempData["SessionExpired"] = true;
+                    return RedirectToAction("Index", "Home");
+                }
             }
             else
             {
-                TempData["SessionExpired"] = true;
-                return RedirectToAction("Index", "Home");
+                TempData["Unprivileged"] = HttpContext.Session.GetSession<int>("Rank");
+                return RedirectToAction("Customers", "Home");
             }
         }
 
