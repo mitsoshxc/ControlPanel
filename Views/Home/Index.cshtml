@@ -41,6 +41,16 @@
 
         TempData.Remove("NoUserName");
     }
+
+    if ((bool)TempData.ContainsKey("AdminCreated"))
+    {
+        <div class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>User admin was missing and was created with Password "1234". Please consider changing Password ASAP!</strong>
+        </div>
+
+        TempData.Remove("AdminCreated");
+    }
 }
 
 <form asp-action="Validate" autocomplete="off">

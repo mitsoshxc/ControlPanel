@@ -48,7 +48,7 @@ function CustDetailsValidate() {
 //
 // User forms validation
 //
-function UserValidation() {
+function UserAddValidation() {
     var _res = true;
 
     document.getElementById("user_name").style.display = "none";
@@ -66,10 +66,41 @@ function UserValidation() {
         document.getElementById("user_rank").style.display = "block";
         _res = false;
     }
+    else if (document.forms["user"]["_rank"].value != "1" &&
+        document.forms["user"]["_rank"].value != "2" &&
+        document.forms["user"]["_rank"].value != "3") {
+        document.getElementById("user_rank").innerHTML = "Not a valid User's rank. Please choose one from [1, 2, 3]";
+        document.getElementById("user_rank").style.display = "block";
+        _res = false;
+    }
 
     if (document.forms["user"]["_pass"].value == "") {
         document.getElementById("user_pass").innerHTML = "User's password can not be empty!";
         document.getElementById("user_pass").style.display = "block";
+        _res = false;
+    }
+
+    return _res;
+}
+
+function UserEditValidation() {
+    var _res = true;
+
+    document.getElementById("user_rank").style.display = "none";
+
+    if (document.forms["user"]["_name"].value == "admin" &&
+        document.forms["user"]["_rank"].value != "0") {
+        document.getElementById("user_rank").innerHTML = "User's admin Rank can not be changed";
+        document.getElementById("user_rank").style.display = "block";
+        document.forms["user"]["_rank"].value = "0";
+        _res = false;
+    }
+    else if (document.forms["user"]["_rank"].value != "1" &&
+        document.forms["user"]["_rank"].value != "2" &&
+        document.forms["user"]["_rank"].value != "3" &&
+        (document.forms["user"]["_rank"].value == "0" && document.forms["user"]["_name"].value != "admin")) {
+        document.getElementById("user_rank").innerHTML = "Not a valid User's rank. Please choose one from [1, 2, 3]";
+        document.getElementById("user_rank").style.display = "block";
         _res = false;
     }
 

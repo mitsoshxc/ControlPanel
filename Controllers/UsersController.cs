@@ -76,7 +76,7 @@ namespace ControlPanel.Controllers
                     _user.Pass = _pass.Encrypt();
                 }
 
-                if (_rank != 0)
+                if (_rank >= 0)
                 {
                     _user.Rank = _rank;
                 }
@@ -103,7 +103,7 @@ namespace ControlPanel.Controllers
         {
             if (HttpContext.Session.GetSession<string>("User") != null)
             {
-                if (HttpContext.Session.GetSession<int>("Rank") < 3)
+                if (HttpContext.Session.GetSession<int>("Rank") < 2)
                 {
                     return View();
                 }

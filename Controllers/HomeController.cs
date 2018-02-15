@@ -18,7 +18,7 @@ namespace ControlPanel.Controllers
             CustomersContext = _context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             if (HttpContext.Session.GetSession<string>("UserId") != null)
             {
@@ -26,6 +26,23 @@ namespace ControlPanel.Controllers
             }
             else
             {
+                var _CheckAdmin = await (from t0 in CustomersContext.User
+                                         where t0.Name == "admin".Encrypt()
+                                         select t0).FirstOrDefaultAsync();
+
+                if (_CheckAdmin == null)
+                {
+                    await CustomersContext.User.AddAsync(new Models.Users()
+                    {
+                        Name = "admin".Encrypt(),
+                        Pass = "1234".Encrypt(),
+                        Rank = 0
+                    });
+
+                    await CustomersContext.SaveChangesAsync();
+
+                    TempData["AdminCreated"] = true;
+                }
                 return View();
             }
         }
@@ -42,9 +59,9 @@ namespace ControlPanel.Controllers
                     return RedirectToAction("Index");
                 }
                 var _User = await (from n in CustomersContext.User
-                                  where n.Name.Decrypt() == _name && n.Pass == _pass.Encrypt()
-                                  select n).FirstOrDefaultAsync();
-                                  
+                                   where n.Name.Decrypt() == _name && n.Pass == _pass.Encrypt()
+                                   select n).FirstOrDefaultAsync();
+
                 if (_User != null)
                 {
                     HttpContext.Session.SetSession<string>("User", _name);

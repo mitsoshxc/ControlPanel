@@ -5,15 +5,16 @@
 }
 
 
-<form asp-action="Edit" method="POST" role="form" name="user" autocomplete="off">
-    <legend>Edit User  @Model.Name.Decrypt()</legend>
+<form asp-action="Edit" method="POST" role="form" name="user" autocomplete="off"
+        onsubmit="return UserEditValidation()">
+    <legend>Edit User  @(Model.Name.Decrypt())</legend>
 
-    <input type="hidden" name="_name" value="@Model.Name.Decrypt()">
+    <input type="hidden" name="_name" value="@(Model.Name.Decrypt())">
     <div class="alert alert-danger" id="user_name" style="display: none;"></div>
 
     <div class="form-group">
         <label>User's Rank</label>
-        <input type="text" class="form-control" name="_rank" value="@Model.Rank">
+        <input type="text" class="form-control" name="_rank" value="@(Model.Rank)">
         <div class="alert alert-danger" id="user_rank" style="display: none;"></div>
     </div>
 
@@ -21,7 +22,7 @@
         <label>New Password</label>
         <input type="password" class="form-control" name="_pass">
         <div class="alert alert-danger" id="user_pass" style="display: none;"></div>
-        <input type="hidden" name="_id" value="@Model.id">
+        <input type="hidden" name="_id" value="@(Model.id)">
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>
