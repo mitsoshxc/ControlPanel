@@ -14,6 +14,13 @@ else if ((bool)TempData.ContainsKey("ActionSuccess"))
         <strong>@TempData["ActionSuccess"]</strong>
     </div>
 }
+else if ((bool)TempData.ContainsKey("Unprivileged"))
+{
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Seems like with your current Rank(@TempData["Unprivileged"]) you are not able to perform this action</strong>
+    </div>
+}
 
 <h3>Customer's @ViewData["Name"] Payments Details</h3>
 @if ((bool)ViewData.ContainsKey("Website")) {

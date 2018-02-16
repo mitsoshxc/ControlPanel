@@ -73,7 +73,7 @@ namespace ControlPanel.Controllers
                 else
                 {
                     TempData["Unprivileged"] = HttpContext.Session.GetSession<int>("Rank");
-                    return RedirectToAction("Customers", "Home");
+                    return RedirectToAction("Customer", new { id = id });
                 }
             }
             else
@@ -142,7 +142,7 @@ namespace ControlPanel.Controllers
                 else
                 {
                     TempData["Unprivileged"] = HttpContext.Session.GetSession<int>("Rank");
-                    return RedirectToAction("Customers", "Home");
+                    return RedirectToAction("Customer", new { id = id });
                 }
             }
             else
@@ -207,7 +207,7 @@ namespace ControlPanel.Controllers
                 else
                 {
                     TempData["Unprivileged"] = HttpContext.Session.GetSession<int>("Rank");
-                    return RedirectToAction("Customers", "Home");
+                    return RedirectToAction("Customer", new { id = id });
                 }
             }
             else

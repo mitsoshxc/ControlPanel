@@ -73,7 +73,7 @@ namespace ControlPanel.Controllers
                 else
                 {
                     TempData["Unprivileged"] = HttpContext.Session.GetSession<int>("Rank");
-                    return RedirectToAction("Customers", "Home");
+                    return RedirectToAction("Customer", new { id = id });
                 }
             }
             else
@@ -112,7 +112,6 @@ namespace ControlPanel.Controllers
             catch (Exception ex)
             {
                 TempData["ActionError"] = "Error adding customer's details.   " + ex.InnerException;
-
                 return RedirectToAction("Customer", new { id = _custId });
             }
         }
@@ -136,14 +135,13 @@ namespace ControlPanel.Controllers
                     catch (Exception ex)
                     {
                         TempData["ActionError"] = ex.Message;
-
                         return RedirectToAction("Customer", new { id = id });
                     }
                 }
                 else
                 {
                     TempData["Unprivileged"] = HttpContext.Session.GetSession<int>("Rank");
-                    return RedirectToAction("Customers", "Home");
+                    return RedirectToAction("Customer", new { id = id });
                 }
             }
             else
@@ -177,7 +175,6 @@ namespace ControlPanel.Controllers
             catch (Exception ex)
             {
                 TempData["ActionError"] = "Error editing customer's details.   " + ex.InnerException;
-
                 return RedirectToAction("Customer", new { id = _custId });
             }
         }
@@ -208,7 +205,7 @@ namespace ControlPanel.Controllers
                 else
                 {
                     TempData["Unprivileged"] = HttpContext.Session.GetSession<int>("Rank");
-                    return RedirectToAction("Customers", "Home");
+                    return RedirectToAction("Customer", new { id = id });
                 }
             }
             else

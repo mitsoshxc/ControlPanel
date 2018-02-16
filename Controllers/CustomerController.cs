@@ -179,14 +179,14 @@ namespace ControlPanel.Controllers
                 }
                 else
                 {
-                    TempData["SessionExpired"] = true;
-                    return RedirectToAction("Index", "Home");
+                    TempData["Unprivileged"] = HttpContext.Session.GetSession<int>("Rank");
+                    return RedirectToAction("Customers", "Home");
                 }
             }
             else
             {
-                TempData["Unprivileged"] = HttpContext.Session.GetSession<int>("Rank");
-                return RedirectToAction("Customers", "Home");
+                TempData["SessionExpired"] = true;
+                return RedirectToAction("Index", "Home");
             }
         }
 
